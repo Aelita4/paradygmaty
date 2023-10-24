@@ -13,83 +13,83 @@ osoba(milosz   , pawel    , renata    , mezczyzna, 17).
 osoba(milena   , pawel    , renata    , kobieta  , 15).
 osoba(pawel    , jan      , krystyna  , mezczyzna, 44).
 
-mezczyzna(X) :-
-    osoba(X, _, _, mezczyzna, _).
+mezczyzna(Osoba) :-
+    osoba(Osoba, _, _, mezczyzna, _).
 
-kobieta(X) :-
-    osoba(X, _, _, kobieta, _).
+kobieta(Osoba) :-
+    osoba(Osoba, _, _, kobieta, _).
 
-rodzenstwo(X, Y) :-
-    osoba(X, O, M, _, _),
-    osoba(Y, O, M, _, _),
-    X \= Y.
+rodzenstwo(Dzieciak1, Dzieciak2) :-
+    osoba(Dzieciak1, Ojciec, Matka, _, _),
+    osoba(Dzieciak2, Ojciec, Matka, _, _),
+    Dzieciak1 \= Dzieciak2.
 
-bracia(X, Y) :-
-    rodzenstwo(X, Y),
-    mezczyzna(X),
-    mezczyzna(Y).
+bracia(Brat1, Brat2) :-
+    rodzenstwo(Brat1, Brat2),
+    mezczyzna(Brat1),
+    mezczyzna(Brat2).
 
-siostry(X, Y) :-
-    rodzenstwo(X, Y),
-    kobieta(X),
-    kobieta(Y).
+siostry(Siostra1, Siostra2) :-
+    rodzenstwo(Siostra1, Siostra2),
+    kobieta(Siostra1),
+    kobieta(Siostra2).
 
-brat(X, Y) :-
-    rodzenstwo(X, Y),
-    mezczyzna(X).
+brat(Brat, Osoba) :-
+    rodzenstwo(Brat, Osoba),
+    mezczyzna(Brat).
 
-siostra(X, Y) :-
-    rodzenstwo(X, Y),
-    kobieta(X).
+siostra(Siostra, Osoba) :-
+    rodzenstwo(Siostra, Osoba),
+    kobieta(Siostra).
 
-matka(X, Y) :-
-    osoba(Y, _, X, _, _).
+matka(Matka, Dziecko) :-
+    osoba(Dziecko, _, Matka, _, _).
 
-ojciec(X ,Y) :-
-    osoba(Y, X, _, _, _).
+ojciec(Ojciec, Dziecko) :-
+    osoba(Dziecko, Ojciec, _, _, _).
 
-potomek(X, Y) :-
-    matka(Y, X);
-    ojciec(Y, X).
+potomek(Dziecko, Rodzic) :-
+    matka(Rodzic, Dziecko);
+    ojciec(Rodzic, Dziecko).
 
-syn(X, Y) :-
-    potomek(X, Y),
-    mezczyzna(X).
+syn(Syn, Rodzic) :-
+    potomek(Syn, Rodzic),
+    mezczyzna(Syn).
 
-corka(X, Y) :-
-    potomek(X, Y),
-    kobieta(X).
+corka(Corka, Rodzic) :-
+    potomek(Corka, Rodzic),
+    kobieta(Corka).
 
-rodzic(X, Y) :-
-    matka(X, Y);
-    ojciec(X, Y).
+rodzic(Rodzic, Dziecko) :-
+    matka(Rodzic, Dziecko);
+    ojciec(Rodzic, Dziecko).
 
-babcia(X, Y) :-
-    rodzic(Z, Y),
-    matka(X, Z).
+babcia(Babcia, Wnuk) :-
+    rodzic(Rodzic, Wnuk),
+    matka(Babcia, Rodzic).
 
-dziadek(X, Y) :-
-    rodzic(Z, Y),
-    ojciec(X, Z).
+dziadek(Dziadek, Wnuk) :-
+    rodzic(Rodzic, Wnuk),
+    ojciec(Dziadek, Rodzic).
 
-wujek(X, Y) :-
-    rodzic(Z, Y),
-    brat(X, Z).
+wujek(Wujek, Osoba) :-
+    rodzic(Rodzic, Osoba),
+    brat(Wujek, Rodzic).
 
-ciocia(X, Y) :-
-    rodzic(Z, Y),
-    siostra(X, Z).
+ciocia(Ciocia, Osoba) :-
+    rodzic(Rodzic, Osoba),
+    siostra(Ciocia, Rodzic).
 
-kuzyni(X, Y) :-
-    rodzic(A, X),
-    rodzic(B, Y),
-    rodzenstwo(A, B),
-    X \= Y.
+kuzyni(Kuzyn1, Kuzyn2) :-
+    rodzic(Rodzic1, Kuzyn1),
+    rodzic(Rodzic2, Kuzyn2),
+    rodzenstwo(Rodzic1, Rodzic2),
+    Kuzyn1 \= Kuzyn2.
 
-kuzyn(X, Y) :-
-    kuzyni(X, Y),
-    mezczyzna(X).
+kuzyn(Kuzyn, Osoba) :-
+    kuzyni(Kuzyn, Osoba),
+    mezczyzna(Kuzyn).
 
-kuzynka(X, Y) :-
-    kuzyni(X, Y),
-    kobieta(X).
+kuzynka(Kuzynka, Osoba) :-
+    kuzyni(Kuzynka, Osoba),
+    kobieta(Kuzynka).

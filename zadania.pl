@@ -69,7 +69,10 @@ zadanie4(Dzisiaj) :-
         prawde(lew, Dzisiaj)    
     ).
 
-% zadanie5() :-
+zadanie5([S,E,N,D,M,O,R,Y]) :-
+    permutation([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [S, E, N, D, M, O, R, Y, _, _]),
+    (1000 * S + 100 * E + 10 * N + D) + (1000 * M + 100 * O + 10 * R + E) =:=
+        10000 * M + 1000 * O + 100 * N + 10 * E + Y.
 
 delta(A, B, C, Wynik) :-
     Wynik is B * B - 4 * A * C.
